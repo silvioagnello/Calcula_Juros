@@ -28,7 +28,12 @@ class _HomeState extends State<Home> {
           title: Text("Calcula Juros"),
           centerTitle: true,
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.refresh), onPressed: () {})
+            IconButton(
+                icon: Icon(Icons.refresh),
+                onPressed: () {
+                  atualizaBloc.resetAllValues(
+                      valMontante, valController2, valorIncluded);
+                })
           ]),
       body: SingleChildScrollView(
           child: Column(

@@ -28,11 +28,19 @@ class AtualizaBloc {
   limpaAporte(valController) {
     valMontante = 0;
     valController.updateValue(valMontante);
-    input.add(valController);
+    // input.add(valController);
+  }
+
+  resetAllValues(
+      valController, valController2, MoneyMaskedTextController montante) {
+    valMontante = 0;
+    valController.updateValue(valMontante);
+    valController2.updateValue(valMontante);
+    montante.updateValue(valMontante);
   }
 
   atualizaMontante(
-    valController, valController2, MoneyMaskedTextController montante) {
+      valController, valController2, MoneyMaskedTextController montante) {
     valAporte = valController2.numberValue;
     valMontante0 = valController.numberValue;
     valMontante = valMontante0 + valAporte;
