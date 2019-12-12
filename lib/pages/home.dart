@@ -24,7 +24,12 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Calcula Juros"), centerTitle: true),
+      appBar: AppBar(
+          title: Text("Calcula Juros"),
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.refresh), onPressed: () {})
+          ]),
       body: SingleChildScrollView(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -58,21 +63,26 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     RaisedButton(
-                        onPressed: () {
-                          atualizaBloc.atualizaMontante(
-                              valMontante, valController2, valorIncluded);
-                        }, //
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Text(
-                          "APORTAR",
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 20,
-                              fontStyle: FontStyle.italic),
-                        )),
+                      child: Text(
+                        "APORTAR",
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 20,
+                            fontStyle: FontStyle.italic),
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      onPressed: () {
+                        atualizaBloc.atualizaMontante(
+                            valMontante, valController2, valorIncluded);
+                      }, //
+                    ),
                     RaisedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        atualizaBloc.limpaAporte(valController2);
+                        atualizaBloc.atualizaMontante(
+                            valMontante, valController2, valorIncluded);
+                      },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)),
                       child: Text("LIMPAR",

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
-
 class AtualizaBloc {
   // MoneyMaskedTextController montante =
   //     MoneyMaskedTextController(leftSymbol: 'R\$ ');
@@ -10,7 +9,7 @@ class AtualizaBloc {
   //     MoneyMaskedTextController(leftSymbol: 'R\$ ');
   // MoneyMaskedTextController valController =
   //     MoneyMaskedTextController(leftSymbol: 'R\$ ');
-      
+
   double valMontante;
   double valMontante0;
   double valAporte;
@@ -26,14 +25,19 @@ class AtualizaBloc {
     _streamController.close();
   }
 
-  atualizaMontante(valController, valController2, MoneyMaskedTextController montante) {
+  limpaAporte(valController) {
+    valMontante = 0;
+    valController.updateValue(valMontante);
+    input.add(valController);
+  }
+
+  atualizaMontante(
+    valController, valController2, MoneyMaskedTextController montante) {
     valAporte = valController2.numberValue;
     valMontante0 = valController.numberValue;
     valMontante = valMontante0 + valAporte;
     montante.updateValue(valMontante);
     valController = montante;
     input.add(montante);
-    
-    
   }
 }
