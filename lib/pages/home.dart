@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
             IconButton(
                 icon: Icon(Icons.refresh),
                 onPressed: () {
-                  atualizaBloc.resetAllValues(
+                  atualizaBloc.resetAllValues(perController,
                       valMontante, valController2, valorIncluded);
                 })
           ]),
@@ -112,7 +112,9 @@ class _HomeState extends State<Home> {
                 return MontanteWidget(valController: valMontante);
               }),
           SizedBox(height: 20),
-          CalculaWidget()
+          CalculaWidget(),
+          SizedBox(height: 20),
+          
         ],
       )),
     );

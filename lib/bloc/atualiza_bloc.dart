@@ -31,9 +31,10 @@ class AtualizaBloc {
     // input.add(valController);
   }
 
-  resetAllValues(
-      valController, valController2, MoneyMaskedTextController montante) {
+  resetAllValues(perController, valController, valController2,
+      MoneyMaskedTextController montante) {
     valMontante = 0;
+    perController.updateValue(valMontante);
     valController.updateValue(valMontante);
     valController2.updateValue(valMontante);
     montante.updateValue(valMontante);
