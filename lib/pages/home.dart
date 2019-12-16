@@ -1,6 +1,6 @@
 import 'package:calcula_juros/bloc/atualiza_bloc.dart';
 import 'package:calcula_juros/widgets/Percent.dart';
-import 'package:calcula_juros/widgets/calcula.dart';
+// import 'package:calcula_juros/widgets/calcula.dart';
 import 'package:calcula_juros/widgets/montante.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -11,13 +11,28 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int numMes = 0;
   var perController = MoneyMaskedTextController(rightSymbol: '%');
   MoneyMaskedTextController valMontante =
+      MoneyMaskedTextController(leftSymbol: 'R\$');
+  MoneyMaskedTextController valController =
       MoneyMaskedTextController(leftSymbol: 'R\$');
   MoneyMaskedTextController valController2 =
       MoneyMaskedTextController(leftSymbol: 'R\$');
   MoneyMaskedTextController valorIncluded =
       MoneyMaskedTextController(leftSymbol: 'R\$');
+
+void somaMes() {
+  setState(() {
+  numMes+= 1;
+  });
+}
+
+void limpaMes() {
+  setState(() {
+    numMes = 0;
+  });
+}
 
   AtualizaBloc atualizaBloc = AtualizaBloc();
 
@@ -31,8 +46,9 @@ class _HomeState extends State<Home> {
             IconButton(
                 icon: Icon(Icons.refresh),
                 onPressed: () {
-                  atualizaBloc.resetAllValues(perController,
-                      valMontante, valController2, valorIncluded);
+                  limpaMes();
+                  atualizaBloc.resetAllValues(perController, valMontante,
+                      valController2, valorIncluded);
                 })
           ]),
       body: SingleChildScrollView(
@@ -112,9 +128,31 @@ class _HomeState extends State<Home> {
                 return MontanteWidget(valController: valMontante);
               }),
           SizedBox(height: 20),
-          CalculaWidget(),
-          SizedBox(height: 20),
-          
+          // CalculaWidget(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                  onPressed: () {
+                    somaMes();
+                    atualizaBloc.calculaMontante(perController, valMontante);
+                    atualizaBloc.atualizaMontante(
+                        valMontante, valController2, valorIncluded);
+                  },
+                  child: Text("+1 MÊS",
+                      style: TextStyle(color: Colors.black, fontSize: 20))),
+              SizedBox(width: 50),
+              RaisedButton(
+                  onPressed: () {},
+                  child: Text("-1 MÊS",
+                      style: TextStyle(color: Colors.black, fontSize: 20))),
+              SizedBox(
+                height: 100,
+              )
+            ],
+          ),
+          // SizedBox(height: 20),
+          Text("Qtd.Meses:$numMes", style: TextStyle(color: Colors.blue, fontSize: 20)),
         ],
       )),
     );

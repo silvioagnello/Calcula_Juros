@@ -1,8 +1,16 @@
 
+import 'package:calcula_juros/bloc/atualiza_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CalculaWidget extends StatelessWidget {
+  MoneyMaskedTextController valMontante;
+  MoneyMaskedTextController perController;
   
+
+  AtualizaBloc atualizaBloc = AtualizaBloc();
+
+  // CalculaWidget({MoneyMaskedTextController valMontante});   //this.perController, 
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +32,9 @@ class CalculaWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // atualizaBloc.calculaMontante();
+                  },
                   child: Text("+1 MÊS",
                       style: TextStyle(color: Colors.black, fontSize: 20))),
               SizedBox(width: 50),
