@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class PercentWidget extends StatelessWidget {
-  const PercentWidget({
-    Key key,
+  PercentWidget({
     @required this.perController,
-  }) : super(key: key);
+  });
 
   final MoneyMaskedTextController perController;
 

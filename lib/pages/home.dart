@@ -22,17 +22,17 @@ class _HomeState extends State<Home> {
   MoneyMaskedTextController valorIncluded =
       MoneyMaskedTextController(leftSymbol: 'R\$');
 
-void somaMes() {
-  setState(() {
-  numMes+= 1;
-  });
-}
+  void somaMes() {
+    setState(() {
+      numMes += 1;
+    });
+  }
 
-void limpaMes() {
-  setState(() {
-    numMes = 0;
-  });
-}
+  void limpaMes() {
+    setState(() {
+      numMes = 0;
+    });
+  }
 
   AtualizaBloc atualizaBloc = AtualizaBloc();
 
@@ -129,30 +129,37 @@ void limpaMes() {
               }),
           SizedBox(height: 20),
           // CalculaWidget(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              RaisedButton(
-                  onPressed: () {
-                    somaMes();
-                    atualizaBloc.calculaMontante(perController, valMontante);
-                    atualizaBloc.atualizaMontante(
-                        valMontante, valController2, valorIncluded);
-                  },
-                  child: Text("+1 MÊS",
-                      style: TextStyle(color: Colors.black, fontSize: 20))),
-              SizedBox(width: 50),
-              RaisedButton(
-                  onPressed: () {},
-                  child: Text("-1 MÊS",
-                      style: TextStyle(color: Colors.black, fontSize: 20))),
-              SizedBox(
-                height: 100,
-              )
-            ],
+          Container(
+            alignment: Alignment.centerRight,
+            decoration: BoxDecoration(
+                color: Colors.blue, borderRadius: BorderRadius.circular(50)),
+            width: 330,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RaisedButton(
+                    onPressed: () {
+                      somaMes();
+                      atualizaBloc.calculaMontante(perController, valMontante);
+                      atualizaBloc.atualizaMontante(
+                          valMontante, valController2, valorIncluded);
+                    },
+                    child: Text("+1 MÊS",
+                        style: TextStyle(color: Colors.black, fontSize: 20))),
+                SizedBox(width: 50),
+                RaisedButton(
+                    onPressed: () {},
+                    child: Text("-1 MÊS",
+                        style: TextStyle(color: Colors.black, fontSize: 20))),
+                SizedBox(
+                  height: 100,
+                )
+              ],
+            ),
           ),
-          // SizedBox(height: 20),
-          Text("Qtd.Meses:$numMes", style: TextStyle(color: Colors.blue, fontSize: 20)),
+          SizedBox(height: 20),
+          Text("Qtd.Meses:$numMes",
+              style: TextStyle(color: Colors.blue, fontSize: 20)),
         ],
       )),
     );
