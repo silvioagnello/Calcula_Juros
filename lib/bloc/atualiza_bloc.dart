@@ -5,10 +5,6 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 class AtualizaBloc {
   MoneyMaskedTextController montante =
       MoneyMaskedTextController(leftSymbol: 'R\$ ');
-  // MoneyMaskedTextController valController2 =
-  //     MoneyMaskedTextController(leftSymbol: 'R\$ ');
-  // MoneyMaskedTextController valController =
-  //     MoneyMaskedTextController(leftSymbol: 'R\$ ');
 
   double valMontante;
   double valMontante0;
@@ -16,9 +12,6 @@ class AtualizaBloc {
   double valAporte;
   double valPercent;
   int numMes;
-  // var valController = MoneyMaskedTextController(leftSymbol: 'R\$ ');
-
-  // AtualizaBloc(this.valController, this.valController2, this.montante);
 
   final StreamController _streamController = StreamController.broadcast();
   Sink get input => _streamController.sink;
@@ -31,7 +24,6 @@ class AtualizaBloc {
   limpaAporte(valController) {
     valMontante = 0;
     valController.updateValue(valMontante);
-    // input.add(valController);
   }
 
   resetAllValues(perController, valController, valController2,
@@ -43,20 +35,33 @@ class AtualizaBloc {
     montante.updateValue(valMontante);
   }
 
-  calculaMontante(perController, valMontante) {
+  calculaMontante(perController, valMontante, String sinal, int numMes) {
     valMontante0 = valMontante.numberValue;
     valPercent = perController.numberValue;
-    valMontante1 = (valMontante0 * ((100 + valPercent) / 100));
-    // valMontante1 = valMontante0 + valMontante1;
+    if (numMes >= 0) {
+      if (sinal == '+') {
+        valMontante1 = (valMontante0 * ((100 + valPercent) / 100));
+      } else if (numMes > 0) {
+        valMontante1 = (valMontante0 / ((100 + valPercent) / 100));
+      }
+    } else {
+      valMontante1 = valMontante0;
+    }
+
     valMontante.updateValue(valMontante1);
-    input.add(montante);
   }
 
-  atualizaMontante(
-      valController, valController2, MoneyMaskedTextController montante) {
+  atualizaMontante(perController, numMes, valController, valController2,
+      MoneyMaskedTextController montante, String sinal) {
     valAporte = valController2.numberValue;
     valMontante0 = valController.numberValue;
-    valMontante = valMontante0 + valAporte;
+    valPercent = perController.numberValue;
+    if (sinal == '+') {
+      valMontante = valMontante0 + valAporte;
+    } else {
+      valMontante0 = valMontante0 - valAporte;
+      valMontante = (valMontante0 / ((100 + valPercent) / 100));
+    }
     montante.updateValue(valMontante);
     valController = montante;
     input.add(montante);

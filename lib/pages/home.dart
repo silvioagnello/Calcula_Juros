@@ -1,6 +1,5 @@
 import 'package:calcula_juros/bloc/atualiza_bloc.dart';
 import 'package:calcula_juros/widgets/Percent.dart';
-// import 'package:calcula_juros/widgets/calcula.dart';
 import 'package:calcula_juros/widgets/montante.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -22,9 +21,11 @@ class _HomeState extends State<Home> {
   MoneyMaskedTextController valorIncluded =
       MoneyMaskedTextController(leftSymbol: 'R\$');
 
-  void somaMes() {
+  void somaMes(value) {
     setState(() {
-      numMes += 1;
+      if ((numMes >= 0 && value > 0) || (numMes > 0 && value < 0)) {
+        numMes += value;
+      }
     });
   }
 
@@ -94,15 +95,15 @@ class _HomeState extends State<Home> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)),
                       onPressed: () {
-                        atualizaBloc.atualizaMontante(
-                            valMontante, valController2, valorIncluded);
+                        atualizaBloc.atualizaMontante(perController, numMes,
+                            valMontante, valController2, valorIncluded, '+');
                       }, //
                     ),
                     RaisedButton(
                       onPressed: () {
                         atualizaBloc.limpaAporte(valController2);
-                        atualizaBloc.atualizaMontante(
-                            valMontante, valController2, valorIncluded);
+                        atualizaBloc.atualizaMontante(perController, numMes,
+                            valMontante, valController2, valorIncluded, '+');
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)),
@@ -120,7 +121,6 @@ class _HomeState extends State<Home> {
           SizedBox(height: 90),
           StreamBuilder(
               stream: atualizaBloc.output,
-              // initialData: 0 as MoneyMaskedTextController,
               builder: (context, snapshot) {
                 if (snapshot.data != null) {
                   valMontante = snapshot.data;
@@ -139,16 +139,23 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 RaisedButton(
                     onPressed: () {
-                      somaMes();
-                      atualizaBloc.calculaMontante(perController, valMontante);
-                      atualizaBloc.atualizaMontante(
-                          valMontante, valController2, valorIncluded);
+                      atualizaBloc.calculaMontante(
+                          perController, valMontante, '+', numMes);
+                      atualizaBloc.atualizaMontante(perController, numMes,
+                          valMontante, valController2, valorIncluded, '+');
+                      somaMes(1);
                     },
                     child: Text("+1 MÊS",
                         style: TextStyle(color: Colors.black, fontSize: 20))),
                 SizedBox(width: 50),
                 RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (numMes > 0) {
+                        atualizaBloc.atualizaMontante(perController, numMes,
+                            valMontante, valController2, valorIncluded, '-');
+                      }
+                      somaMes(-1);
+                    },
                     child: Text("-1 MÊS",
                         style: TextStyle(color: Colors.black, fontSize: 20))),
                 SizedBox(
