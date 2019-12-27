@@ -29,7 +29,8 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void percentualizar( MoneyMaskedTextController valController, MoneyMaskedTextController valController2) {
+  void percentualizar(MoneyMaskedTextController valController,
+      MoneyMaskedTextController valController2) {
     double valMaior = 0.00;
     double valMenor = 0.00;
     double valCalculo = 0.00;
@@ -65,134 +66,157 @@ class _HomeState extends State<Home> {
                 })
           ]),
       body: SingleChildScrollView(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
         children: <Widget>[
-          SizedBox(height: 50),
-          PercentWidget(perController: perController),
-          RaisedButton(
-            child: Text(
-              "Porcentualizar",
-              style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic),
-            ),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-            onPressed: () {
-              percentualizar(valMontante, valController2);
-            }, //
-          ),
-          SizedBox(height: 60),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.black12,
-              borderRadius: BorderRadius.circular(50),
-            ),
-            width: 330,
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "Mont.Inicial ou Aportes",
+          Image.asset("images/unnamed.png", fit: BoxFit.cover, height: 900,),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: 50),
+              PercentWidget(perController: perController),
+              RaisedButton(
+                child: Text(
+                  "Porcentualizar",
                   style: TextStyle(
                       color: Colors.blue,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20),
+                      fontSize: 20,
+                      fontStyle: FontStyle.italic),
                 ),
-                TextFormField(
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(border: InputBorder.none),
-                  controller: valController2,
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(fontSize: 33, color: Colors.black),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)),
+                onPressed: () {
+                  percentualizar(valMontante, valController2);
+                }, //
+              ),
+              SizedBox(height: 60),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(50),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                width: 330,
+                child: Column(
                   children: <Widget>[
-                    RaisedButton(
-                      child: Text(
-                        "APORTAR",
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 20,
-                            fontStyle: FontStyle.italic),
-                      ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      onPressed: () {
-                        atualizaBloc.atualizaMontante(perController, numMes,
-                            valMontante, valController2, valorIncluded, '+');
-                      }, //
+                    Text(
+                      "Mont.Inicial ou Aportes",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20),
                     ),
-                    RaisedButton(
-                      onPressed: () {
-                        atualizaBloc.limpaAporte(valController2);
-                        atualizaBloc.atualizaMontante(perController, numMes,
-                            valMontante, valController2, valorIncluded, '+');
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Text("LIMPAR",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.blue,
-                              fontStyle: FontStyle.italic)),
+                    TextFormField(
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration(border: InputBorder.none),
+                      controller: valController2,
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(fontSize: 33, color: Colors.black),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        RaisedButton(
+                          child: Text(
+                            "APORTAR",
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 20,
+                                fontStyle: FontStyle.italic),
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
+                          onPressed: () {
+                            atualizaBloc.atualizaMontante(
+                                perController,
+                                numMes,
+                                valMontante,
+                                valController2,
+                                valorIncluded,
+                                '+');
+                          }, //
+                        ),
+                        RaisedButton(
+                          onPressed: () {
+                            atualizaBloc.limpaAporte(valController2);
+                            atualizaBloc.atualizaMontante(
+                                perController,
+                                numMes,
+                                valMontante,
+                                valController2,
+                                valorIncluded,
+                                '+');
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Text("LIMPAR",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.blue,
+                                  fontStyle: FontStyle.italic)),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              SizedBox(height: 70),
+              StreamBuilder(
+                  stream: atualizaBloc.output,
+                  builder: (context, snapshot) {
+                    if (snapshot.data != null) {
+                      valMontante = snapshot.data;
+                    }
+                    return MontanteWidget(valController: valMontante);
+                  }),
+              SizedBox(height: 30),
+              // CalculaWidget(),
+              Container(
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(50)),
+                width: 330,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                        onPressed: () {
+                          atualizaBloc.calculaMontante(
+                              perController, valMontante, '+', numMes);
+                          atualizaBloc.atualizaMontante(perController, numMes,
+                              valMontante, valController2, valorIncluded, '+');
+                          somaMes(1);
+                        },
+                        child: Text("+1 MÊS",
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20))),
+                    SizedBox(width: 50),
+                    RaisedButton(
+                        onPressed: () {
+                          if (numMes > 0) {
+                            atualizaBloc.atualizaMontante(
+                                perController,
+                                numMes,
+                                valMontante,
+                                valController2,
+                                valorIncluded,
+                                '-');
+                          }
+                          somaMes(-1);
+                        },
+                        child: Text("-1 MÊS",
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20))),
+                    SizedBox(
+                      height: 100,
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              Text("Qtd.Meses:$numMes",
+                  style: TextStyle(color: Colors.blue, fontSize: 20)),
+            ],
           ),
-          SizedBox(height: 70),
-          StreamBuilder(
-              stream: atualizaBloc.output,
-              builder: (context, snapshot) {
-                if (snapshot.data != null) {
-                  valMontante = snapshot.data;
-                }
-                return MontanteWidget(valController: valMontante);
-              }),
-          SizedBox(height: 30),
-          // CalculaWidget(),
-          Container(
-            alignment: Alignment.centerRight,
-            decoration: BoxDecoration(
-                color: Colors.blue, borderRadius: BorderRadius.circular(50)),
-            width: 330,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                    onPressed: () {
-                      atualizaBloc.calculaMontante(
-                          perController, valMontante, '+', numMes);
-                      atualizaBloc.atualizaMontante(perController, numMes,
-                          valMontante, valController2, valorIncluded, '+');
-                      somaMes(1);
-                    },
-                    child: Text("+1 MÊS",
-                        style: TextStyle(color: Colors.black, fontSize: 20))),
-                SizedBox(width: 50),
-                RaisedButton(
-                    onPressed: () {
-                      if (numMes > 0) {
-                        atualizaBloc.atualizaMontante(perController, numMes,
-                            valMontante, valController2, valorIncluded, '-');
-                      }
-                      somaMes(-1);
-                    },
-                    child: Text("-1 MÊS",
-                        style: TextStyle(color: Colors.black, fontSize: 20))),
-                SizedBox(
-                  height: 100,
-                )
-              ],
-            ),
-          ),
-          SizedBox(height: 20),
-          Text("Qtd.Meses:$numMes",
-              style: TextStyle(color: Colors.blue, fontSize: 20)),
         ],
       )),
     );
