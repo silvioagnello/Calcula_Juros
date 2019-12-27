@@ -29,6 +29,17 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void percentualizar(valMaiorRec, valMenorRec) {
+    double valMaior;
+    double valMenor;
+    valMaior = valMaiorRec.numberValue;
+    valMenor = valMenorRec.numberValue;;
+    double valCalculo = ((valMaior - valMenor) / valMenor) * 100;
+    setState(() {
+      perController.updateValue(valCalculo);
+    });
+  }
+
   void limpaMes() {
     setState(() {
       numMes = 0;
@@ -58,7 +69,21 @@ class _HomeState extends State<Home> {
         children: <Widget>[
           SizedBox(height: 50),
           PercentWidget(perController: perController),
-          SizedBox(height: 40),
+          RaisedButton(
+            child: Text(
+              "Porcentualizar",
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic),
+            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+            onPressed: () {
+              percentualizar(valMontante, valController2);
+            }, //
+          ),
+          SizedBox(height: 60),
           Container(
             decoration: BoxDecoration(
               color: Colors.black12,
@@ -68,7 +93,7 @@ class _HomeState extends State<Home> {
             child: Column(
               children: <Widget>[
                 Text(
-                  "Aportes",
+                  "Mont.Inicial ou Aportes",
                   style: TextStyle(
                       color: Colors.blue,
                       fontWeight: FontWeight.w700,
@@ -118,7 +143,7 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          SizedBox(height: 90),
+          SizedBox(height: 70),
           StreamBuilder(
               stream: atualizaBloc.output,
               builder: (context, snapshot) {
@@ -127,7 +152,7 @@ class _HomeState extends State<Home> {
                 }
                 return MontanteWidget(valController: valMontante);
               }),
-          SizedBox(height: 20),
+          SizedBox(height: 30),
           // CalculaWidget(),
           Container(
             alignment: Alignment.centerRight,
