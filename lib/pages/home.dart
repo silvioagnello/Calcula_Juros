@@ -29,12 +29,13 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void percentualizar(valMaiorRec, valMenorRec) {
-    double valMaior;
-    double valMenor;
-    valMaior = valMaiorRec.numberValue;
-    valMenor = valMenorRec.numberValue;;
-    double valCalculo = ((valMaior - valMenor) / valMenor) * 100;
+  void percentualizar( MoneyMaskedTextController valController, MoneyMaskedTextController valController2) {
+    double valMaior = 0.00;
+    double valMenor = 0.00;
+    double valCalculo = 0.00;
+    valMaior = valController.numberValue;
+    valMenor = valController2.numberValue;
+    valCalculo = ((valMaior - valMenor) / valMenor) * 100;
     setState(() {
       perController.updateValue(valCalculo);
     });
